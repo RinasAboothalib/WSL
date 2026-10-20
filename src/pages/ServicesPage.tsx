@@ -14,13 +14,20 @@ import {
 } from 'lucide-react';
 import { WSLLogo } from '../components/WSLLogo';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
 import { WSL_SERVICES, VisaService } from '../data/wslData';
 
 interface ServicesPageProps {
   onOpenConsultation: (country?: string, service?: string) => void;
+  onOpenDrawer?: (serv: any) => void;
 }
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenConsultation }) => {
+export const ServicesPage: React.FC<ServicesPageProps> = ({
+  onOpenConsultation,
+  onOpenDrawer
+}) => {
   const [selectedServiceId, setSelectedServiceId] = useState<string>(WSL_SERVICES[0].id);
 
   const activeService = WSL_SERVICES.find((s) => s.id === selectedServiceId) || WSL_SERVICES[0];
@@ -75,17 +82,25 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenConsultation }
                 </span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08] text-balance"
-              >
-                Expert Advisory. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                  Zero-Error Visa Approvals.
-                </span>
-              </motion.h1>
+              <div className="space-y-3">
+                <KineticHeading
+                  as="h1"
+                  delay={0.06}
+                  immediate={true}
+                  className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08]"
+                  highlightWords={['Zero-Error', 'Visa', 'Approvals.']}
+                >
+                  Expert Advisory. Zero-Error Visa Approvals.
+                </KineticHeading>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+                >
+                  End-to-end guidance from preliminary profile evaluation and university selection to scholarship filing, interview coaching, and consular submission.
+                </motion.p>
+              </div>
 
               {/* Quick Service Pills */}
               <motion.div
@@ -225,6 +240,9 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenConsultation }
         </div>
       </section>
 
+      {/* Hello Monday Kinetic Marquee */}
+      <KineticMarquee theme="accent" speed={24} />
+
       {/* =========================================================================
           MAIN SERVICE BREAKDOWN & DETAIL VIEW
          ========================================================================= */}
@@ -233,9 +251,12 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenConsultation }
           <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
             End-to-End Service Architecture
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <KineticHeading
+            as="h2"
+            className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight justify-center"
+          >
             Detailed Service Deliverables
-          </h2>
+          </KineticHeading>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

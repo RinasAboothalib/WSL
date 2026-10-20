@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Award, Users, ArrowRight, ChevronDown } from 'lucide-react';
 import { WSLLogo } from '../components/WSLLogo';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
 import { WSL_TEAM } from '../data/wslData';
 
 interface AboutPageProps {
@@ -43,17 +46,25 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenConsultation, onNavi
               </span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.1 }}
-              className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08] text-balance"
-            >
-              14+ Years of Integrity & <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                Educational Excellence.
-              </span>
-            </motion.h1>
+            <div className="space-y-3">
+              <KineticHeading
+                as="h1"
+                delay={0.06}
+                immediate={true}
+                className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08]"
+                highlightWords={['Integrity', 'Educational', 'Excellence.']}
+              >
+                14+ Years of Integrity & Educational Excellence.
+              </KineticHeading>
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+              >
+                Founded in 2011, WSL Consultants has built a sterling reputation guiding thousands of students toward verified degrees and permanent international careers across Europe and beyond.
+              </motion.p>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -107,26 +118,35 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenConsultation, onNavi
         </div>
       </section>
 
+      {/* Hello Monday Kinetic Marquee */}
+      <KineticMarquee theme="accent" speed={24} />
+
       {/* =========================================================================
           LEADERSHIP SHOWCASE SECTION
          ========================================================================= */}
       <section id="leadership-details" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-10 rounded-2xl bg-white border border-slate-200/80 shadow-md">
+        <HelloMondayCard
+          cursorBadge="LEADERSHIP"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-10 rounded-2xl bg-white border border-slate-200/80 shadow-md"
+        >
           <div className="lg:col-span-5">
             <div className="rounded-xl overflow-hidden border border-slate-200 aspect-[4/3] bg-slate-100">
               <img
                 src="/src/assets/images/wsl_leadership_board_1792299829974.jpg"
                 alt="Saba Tanveer and Tanveer Abbas - Executive Leadership"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
                 referrerPolicy="no-referrer"
               />
             </div>
           </div>
           <div className="lg:col-span-7 space-y-4">
             <span className="text-xs font-mono uppercase font-bold text-blue-800">Founders & Executive Directors</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+            <KineticHeading
+              as="h2"
+              className="text-2xl sm:text-3xl font-black text-slate-900"
+            >
               A Personal Commitment from Saba Tanveer & Tanveer Abbas
-            </h2>
+            </KineticHeading>
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
               "When we established WSL Consultants in 2011, our goal was simple: provide transparent, realistic advice to students seeking higher education in Europe and the West. Every student who walks into our Dubai or Lahore office receives honest assessment—not empty promises."
             </p>
@@ -143,7 +163,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenConsultation, onNavi
               </div>
             </div>
           </div>
-        </div>
+        </HelloMondayCard>
       </section>
 
       {/* =========================================================================

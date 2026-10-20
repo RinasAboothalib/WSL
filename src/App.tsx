@@ -6,6 +6,9 @@ import { PageTransition } from './components/PageTransition';
 import { ConsultationModal } from './components/ConsultationModal';
 import { MediaLightbox } from './components/MediaLightbox';
 import { YouTubeVideoModal } from './components/YouTubeVideoModal';
+import { HelloMondayCursor } from './components/HelloMondayCursor';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
+import { InteractiveDrawer } from './components/InteractiveDrawer';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { DestinationsPage } from './pages/DestinationsPage';
@@ -13,7 +16,7 @@ import { ServicesPage } from './pages/ServicesPage';
 import { SuccessStoriesPage } from './pages/SuccessStoriesPage';
 import { ContactPage } from './pages/ContactPage';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
-import { YouTubeVideo } from './data/wslData';
+import { YouTubeVideo, Destination, VisaService } from './data/wslData';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
@@ -65,6 +68,16 @@ export default function App() {
     setYoutubeModalOpen(true);
   };
 
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [drawerItem, setDrawerItem] = useState<Destination | VisaService | null>(null);
+  const [drawerType, setDrawerType] = useState<'destination' | 'service'>('destination');
+
+  const handleOpenDrawer = (item: Destination | VisaService, type: 'destination' | 'service') => {
+    setDrawerItem(item);
+    setDrawerType(type);
+    setDrawerOpen(true);
+  };
+
   const renderActivePage = () => {
     switch (currentPath) {
       case '/about':
@@ -78,12 +91,14 @@ export default function App() {
         return (
           <DestinationsPage
             onOpenConsultation={(country) => handleOpenConsultation(country)}
+            onOpenDrawer={(dest) => handleOpenDrawer(dest, 'destination')}
           />
         );
       case '/services':
         return (
           <ServicesPage
             onOpenConsultation={(dest, service) => handleOpenConsultation(dest, service)}
+            onOpenDrawer={(serv) => handleOpenDrawer(serv, 'service')}
           />
         );
       case '/success-stories':
@@ -103,6 +118,7 @@ export default function App() {
             onOpenConsultation={handleOpenConsultation}
             onOpenLightbox={handleOpenLightbox}
             onSelectYouTubeVideo={handleSelectYouTubeVideo}
+            onOpenDrawer={handleOpenDrawer}
           />
         );
     }
@@ -110,6 +126,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+      {/* Hello Monday Signature Interactive Magnetic Cursor */}
+      <HelloMondayCursor />
+
+      {/* Kinetic Scroll Progress Bar */}
+      <ScrollProgressBar />
+
       {/* Navigation Bar */}
       <Navbar
         currentPath={currentPath}
@@ -130,6 +152,15 @@ export default function App() {
       <Footer
         onNavigate={handleNavigate}
         onOpenConsultation={() => handleOpenConsultation()}
+      />
+
+      {/* Hello Monday Slide-over Interactive Detail Drawer */}
+      <InteractiveDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        item={drawerItem}
+        type={drawerType}
+        onBookConsultation={(dest, serv) => handleOpenConsultation(dest, serv)}
       />
 
       {/* Free Consultation Modal */}
@@ -160,6 +191,7 @@ export default function App() {
           href="https://wa.me/971547710629?text=Hello%20WSL%20Consultants,%20I%20would%20like%20to%20consult%20with%20an%20education%20advisor."
           target="_blank"
           rel="noopener noreferrer"
+          data-cursor="chat"
           className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white flex items-center justify-center shadow-xl shadow-emerald-500/35 hover:scale-105 active:scale-95 transition-all focus:outline-none"
           title="Direct WhatsApp with WSL Dubai Advisor"
           aria-label="Direct WhatsApp"

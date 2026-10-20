@@ -11,6 +11,9 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { WSLLogo } from '../components/WSLLogo';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
 import { WSL_SUCCESS_STORIES, SuccessStory } from '../data/wslData';
 
 interface SuccessStoriesPageProps {
@@ -72,17 +75,25 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
                 </span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08] text-balance"
-              >
-                Real Students. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                  Proven Visa Approvals.
-                </span>
-              </motion.h1>
+              <div className="space-y-3">
+                <KineticHeading
+                  as="h1"
+                  delay={0.06}
+                  immediate={true}
+                  className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08]"
+                  highlightWords={['Proven', 'Visa', 'Approvals.']}
+                >
+                  Real Students. Proven Visa Approvals.
+                </KineticHeading>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+                >
+                  Genuine visa stamps, DSU scholarship winners, and inspiring admission journeys from students who trusted WSL Consultants to achieve their educational aspirations.
+                </motion.p>
+              </div>
 
               {/* Quick Destination Filter Pills */}
               <motion.div
@@ -222,6 +233,9 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
         </div>
       </section>
 
+      {/* Hello Monday Kinetic Marquee */}
+      <KineticMarquee theme="accent" speed={24} />
+
       {/* =========================================================================
           FILTER & STORIES SECTION
          ========================================================================= */}
@@ -230,9 +244,12 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
           <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
             Client Portfolio
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <KineticHeading
+            as="h2"
+            className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight justify-center"
+          >
             Verified Visas & Student Experiences
-          </h2>
+          </KineticHeading>
         </div>
 
         {/* Filter Tabs */}
@@ -258,9 +275,10 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredStories.map((story) => (
-            <div
+            <HelloMondayCard
               key={story.id}
-              className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-blue-300 hover:shadow-lg transition-all group"
+              cursorBadge="STORY"
+              className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-blue-300 hover:shadow-lg transition-all group h-full"
             >
               <div className="space-y-4">
                 {/* Header info */}
@@ -309,6 +327,7 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
                         description: `Official visa granted for ${story.studentName}. Guided through complete admissions, scholarships, and consular filing by WSL Consultants UAE.`
                       })
                     }
+                    data-cursor="view"
                     className="text-xs text-blue-900 hover:text-blue-700 flex items-center gap-1 font-bold cursor-pointer"
                   >
                     <span>View Approval Details</span>
@@ -320,12 +339,13 @@ export const SuccessStoriesPage: React.FC<SuccessStoriesPageProps> = ({
 
                 <button
                   onClick={() => onOpenConsultation(story.destination)}
+                  data-cursor="apply"
                   className="px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-blue-900 hover:text-white text-slate-700 border border-slate-200 text-xs font-bold transition-all cursor-pointer"
                 >
                   Apply Similarly
                 </button>
               </div>
-            </div>
+            </HelloMondayCard>
           ))}
         </div>
       </section>

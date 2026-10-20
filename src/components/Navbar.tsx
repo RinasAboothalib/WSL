@@ -86,6 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenC
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <button
                 onClick={onOpenConsultation}
+                data-cursor="apply"
                 className="hidden sm:flex px-4 py-2.5 text-xs font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-lg shadow-sm shadow-blue-900/20 transition-all hover:shadow-md hover:-translate-y-0.5 whitespace-nowrap shrink-0 items-center gap-1.5 cursor-pointer"
               >
                 <span>Free Consultation</span>

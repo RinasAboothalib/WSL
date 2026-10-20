@@ -15,13 +15,20 @@ import {
 } from 'lucide-react';
 import { WSLLogo } from '../components/WSLLogo';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
 import { WSL_DESTINATIONS, Destination } from '../data/wslData';
 
 interface DestinationsPageProps {
   onOpenConsultation: (country?: string) => void;
+  onOpenDrawer?: (dest: Destination) => void;
 }
 
-export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsultation }) => {
+export const DestinationsPage: React.FC<DestinationsPageProps> = ({
+  onOpenConsultation,
+  onOpenDrawer
+}) => {
   const [selectedCountry, setSelectedCountry] = useState<string>(WSL_DESTINATIONS[0].id);
 
   const activeDest = WSL_DESTINATIONS.find((d) => d.id === selectedCountry) || WSL_DESTINATIONS[0];
@@ -67,17 +74,25 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                 </span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08] text-balance"
-              >
-                World-Class Campuses. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                  Direct Global Pathways.
-                </span>
-              </motion.h1>
+              <div className="space-y-3">
+                <KineticHeading
+                  as="h1"
+                  delay={0.06}
+                  immediate={true}
+                  className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08]"
+                  highlightWords={['Direct', 'Global', 'Pathways.']}
+                >
+                  World-Class Campuses. Direct Global Pathways.
+                </KineticHeading>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+                >
+                  Explore comprehensive admissions criteria, post-study work permits, regional scholarships, and visa protocols across top global study destinations.
+                </motion.p>
+              </div>
 
               {/* Quick Destination Selectors */}
               <motion.div
@@ -93,7 +108,6 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                     className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl bg-white/90 hover:bg-blue-50 border border-slate-200 text-[11px] sm:text-xs font-bold text-slate-800 shadow-xs transition-all hover:border-blue-300 hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer shrink-0"
                   >
                     <span>{dest.country}</span>
-                    <span className="text-[10px] font-mono text-blue-700">({dest.code})</span>
                   </button>
                 ))}
               </motion.div>
@@ -143,12 +157,10 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
               </motion.div>
             </div>
 
-            {/* Right Column: Hero Metrics Card */}
+            {/* Right Column: Hero Metrics Card with Hello Monday 3D Tilt */}
             <div className="lg:col-span-4 hidden lg:flex flex-col items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
+              <HelloMondayCard
+                cursorBadge="HIGHLIGHTS"
                 className="p-7 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-2xl shadow-slate-300/60 space-y-5 max-w-sm w-full"
               >
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -186,7 +198,7 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </HelloMondayCard>
             </div>
           </div>
         </div>
@@ -201,7 +213,7 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
               <span className="hidden sm:inline">·</span>
               <span>Canada (Direct Entry)</span>
               <span className="hidden sm:inline">·</span>
-              <span>United Kingdom & USA</span>
+              <span>United Kingdom & United States</span>
             </div>
 
             <button
@@ -218,6 +230,9 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
         </div>
       </section>
 
+      {/* Hello Monday Infinite Kinetic Marquee */}
+      <KineticMarquee theme="accent" speed={24} />
+
       {/* =========================================================================
           MAIN DESTINATION SHOWCASE & DEEP DIVE SECTION
          ========================================================================= */}
@@ -227,9 +242,12 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
           <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
             Official Country Specifications
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <KineticHeading
+            as="h2"
+            className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight justify-center"
+          >
             Select a Destination for Full Guidelines
-          </h2>
+          </KineticHeading>
         </div>
 
         {/* Country Quick Selector Buttons */}
@@ -246,7 +264,6 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                     : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-xs'
                 }`}
               >
-                <span className="font-mono text-[10px] opacity-75">{dest.code}</span>
                 <span>{dest.country}</span>
               </button>
             );
@@ -266,8 +283,8 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
-                <span className="px-3 py-1 rounded-md bg-white/90 backdrop-blur-md text-xs font-mono font-bold text-blue-900 border border-slate-200 shadow-xs">
-                  Code: {activeDest.code}
+                <span className="px-3 py-1 rounded-md bg-white/90 backdrop-blur-md text-xs font-bold text-blue-900 border border-slate-200 shadow-xs">
+                  Official Country Dossier
                 </span>
                 <h2 className="text-3xl font-black text-white mt-2">
                   Study in {activeDest.country}
@@ -401,9 +418,6 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       referrerPolicy="no-referrer"
                     />
-                    <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-white/90 backdrop-blur-xs text-[10px] font-mono font-bold text-blue-900">
-                      {dest.code}
-                    </span>
                   </div>
                   <h4 className="text-base font-black text-slate-900 group-hover:text-blue-900 transition-colors">
                     {dest.country}

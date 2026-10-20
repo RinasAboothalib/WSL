@@ -20,6 +20,10 @@ import { WSLLogo } from '../components/WSLLogo';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { RedServiceRibbon } from '../components/RedServiceRibbon';
 import { YouTubeShowcase } from '../components/YouTubeShowcase';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
+import { CountUpNumber } from '../components/CountUpNumber';
 import {
   WSL_DESTINATIONS,
   WSL_SERVICES,
@@ -38,13 +42,15 @@ interface HomePageProps {
   onOpenConsultation: (dest?: string, service?: string) => void;
   onOpenLightbox: (media: any) => void;
   onSelectYouTubeVideo: (video: YouTubeVideo) => void;
+  onOpenDrawer?: (item: any, type: 'destination' | 'service') => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   onNavigate,
   onOpenConsultation,
   onOpenLightbox,
-  onSelectYouTubeVideo
+  onSelectYouTubeVideo,
+  onOpenDrawer
 }) => {
   const [selectedDestTab, setSelectedDestTab] = useState<string>('all');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -102,18 +108,26 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </span>
               </motion.div>
 
-              {/* Main Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08] text-balance"
-              >
-                Global Education. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                  Trusted Visa Pathways.
-                </span>
-              </motion.h1>
+              {/* Main Headline - Hello Monday Kinetic Reveal */}
+              <div className="space-y-3">
+                <KineticHeading
+                  as="h1"
+                  delay={0.06}
+                  immediate={true}
+                  className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.12] sm:leading-[1.08]"
+                  highlightWords={['Trusted', 'Visa', 'Pathways.']}
+                >
+                  Global Education. Trusted Visa Pathways.
+                </KineticHeading>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+                >
+                  Official international education and study abroad visa consultancy based in Dubai & Lahore. Direct university admissions, up to 100% regional scholarship guidance, and certified visa processing.
+                </motion.p>
+              </div>
 
               {/* Action Buttons */}
               <motion.div
@@ -124,6 +138,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               >
                 <button
                   onClick={() => onOpenConsultation()}
+                  data-cursor="apply"
                   className="px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-xl shadow-md shadow-blue-900/25 transition-all hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Book Free Profile Consultation</span>
@@ -135,6 +150,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     const el = document.getElementById('destinations-section');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}
+                  data-cursor="explore"
                   className="px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-slate-800 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl shadow-xs transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Explore Study Destinations</span>
@@ -165,22 +181,21 @@ export const HomePage: React.FC<HomePageProps> = ({
               </motion.div>
             </div>
 
-            {/* Right Column: Hero Showcase Card with Official Emblem & Floating Country Badges */}
+            {/* Right Column: Hero Showcase Card with 3D Tilt & CountUp Numbers */}
             <div className="lg:col-span-4 hidden lg:flex flex-col items-center justify-center relative">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.25 }}
-                className="p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-2xl shadow-slate-300/60 text-center space-y-4 max-w-sm w-full relative"
+              <HelloMondayCard
+                cursorBadge="DISCOVER"
+                onClick={() => onOpenConsultation()}
+                className="p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-2xl shadow-slate-300/60 text-center space-y-4 max-w-sm w-full"
               >
                 {/* Floating Destination Badge: Austria */}
-                <div className="absolute -top-4 -left-4 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-md flex items-center gap-2 text-xs font-bold text-slate-900">
+                <div className="absolute -top-3 -left-3 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-md flex items-center gap-1.5 text-xs font-bold text-slate-900 z-30">
                   <span className="text-sm">🇦🇹</span>
                   <span>Austria</span>
                 </div>
 
                 {/* Floating Destination Badge: Italy */}
-                <div className="absolute -bottom-4 -right-4 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-md flex items-center gap-2 text-xs font-bold text-slate-900">
+                <div className="absolute -bottom-3 -right-3 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-md flex items-center gap-1.5 text-xs font-bold text-slate-900 z-30">
                   <span className="text-sm">🇮🇹</span>
                   <span>Italy (DSU 100%)</span>
                 </div>
@@ -199,14 +214,18 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-left text-xs">
                   <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
                     <span className="text-[10px] text-slate-500 uppercase font-bold block">Success Rate</span>
-                    <span className="text-base font-black text-blue-900">90%+</span>
+                    <span className="text-base font-black text-blue-900">
+                      <CountUpNumber value={90} suffix="%+" />
+                    </span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
                     <span className="text-[10px] text-slate-500 uppercase font-bold block">Visas Issued</span>
-                    <span className="text-base font-black text-slate-900">10,000+</span>
+                    <span className="text-base font-black text-slate-900">
+                      <CountUpNumber value={10000} suffix="+" />
+                    </span>
                   </div>
                 </div>
-              </motion.div>
+              </HelloMondayCard>
             </div>
           </div>
         </div>
@@ -219,7 +238,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span className="hidden sm:inline">·</span>
               <span>Canada PGWP Admissions</span>
               <span className="hidden sm:inline">·</span>
-              <span>UK & US Visa Processing</span>
+              <span>United Kingdom & United States Visa Processing</span>
             </div>
 
             <button
@@ -236,13 +255,16 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
+      {/* Hello Monday Infinite Kinetic Typography Marquee */}
+      <KineticMarquee theme="accent" speed={22} />
+
       {/* =========================================================================
           SIGNATURE RED SERVICES RIBBON (FROM USER'S REFERENCE)
          ========================================================================= */}
       <RedServiceRibbon />
 
       {/* =========================================================================
-          SECTION 2: 4-COLUMN TRUST & CREDIBILITY METRICS
+          SECTION 2: 4-COLUMN TRUST & CREDIBILITY METRICS (COUNT-UP)
          ========================================================================= */}
       <section className="py-12 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -252,9 +274,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1"
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1 hover:border-blue-300 transition-colors"
             >
-              <span className="text-3xl sm:text-4xl font-black text-blue-900 tabular-nums">14+</span>
+              <div className="text-3xl sm:text-4xl font-black text-blue-900">
+                <CountUpNumber value={14} suffix="+" />
+              </div>
               <p className="text-sm font-bold text-slate-900">Years of Direct Experience</p>
               <p className="text-xs text-slate-500">Operating since 2011 across UAE & Pakistan.</p>
             </motion.div>
@@ -264,9 +288,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.08 }}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1"
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1 hover:border-blue-300 transition-colors"
             >
-              <span className="text-3xl sm:text-4xl font-black text-slate-900 tabular-nums">10,000+</span>
+              <div className="text-3xl sm:text-4xl font-black text-slate-900">
+                <CountUpNumber value={10000} suffix="+" />
+              </div>
               <p className="text-sm font-bold text-slate-900">Successful Applications</p>
               <p className="text-xs text-slate-500">Admissions & visas secured across Europe and the West.</p>
             </motion.div>
@@ -276,9 +302,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.16 }}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1"
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1 hover:border-blue-300 transition-colors"
             >
-              <span className="text-3xl sm:text-4xl font-black text-blue-900 tabular-nums">90%+</span>
+              <div className="text-3xl sm:text-4xl font-black text-blue-900">
+                <CountUpNumber value={90} suffix="%+" />
+              </div>
               <p className="text-sm font-bold text-slate-900">Visa Approval Rate</p>
               <p className="text-xs text-slate-500">Rigorous pre-submission vetting and interview coaching.</p>
             </motion.div>
@@ -288,9 +316,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.24 }}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1"
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1 hover:border-blue-300 transition-colors"
             >
-              <span className="text-3xl sm:text-4xl font-black text-slate-900 tabular-nums">2</span>
+              <div className="text-3xl sm:text-4xl font-black text-slate-900">
+                <CountUpNumber value={2} />
+              </div>
               <p className="text-sm font-bold text-slate-900">Physical Consultancies</p>
               <p className="text-xs text-slate-500">Dubai Burjuman Headquarters & Lahore Gulberg Office.</p>
             </motion.div>
@@ -348,12 +378,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              UK, USA & Canada
+              United Kingdom, United States & Canada
             </button>
           </div>
         </motion.div>
 
-        {/* Destination Cards Grid */}
+        {/* Destination Cards Grid - Hello Monday 3D Tilt Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredDestinations.map((dest: Destination, idx) => (
             <motion.div
@@ -362,69 +392,84 @@ export const HomePage: React.FC<HomePageProps> = ({
               initial={{ opacity: 0, y: 24 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              whileHover={{ y: -6 }}
-              className="group rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-xl hover:border-blue-300 transition-all overflow-hidden flex flex-col justify-between"
             >
-              <div>
-                <div className="relative h-56 overflow-hidden bg-slate-100">
-                  <img
-                    src={dest.image}
-                    alt={dest.country}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-md rounded-md border border-slate-200 text-xs font-bold text-slate-900 flex items-center gap-1.5 shadow-xs">
-                    <span className="font-mono text-blue-700 font-extrabold">{dest.code}</span>
-                    <span>{dest.country}</span>
+              <HelloMondayCard
+                cursorBadge="EXPLORE"
+                onClick={() => (onOpenDrawer ? onOpenDrawer(dest, 'destination') : onNavigate('/destinations'))}
+                className="group rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-blue-300 transition-all overflow-hidden flex flex-col justify-between h-full"
+              >
+                <div>
+                  <div className="relative h-56 overflow-hidden bg-slate-100">
+                    <img
+                      src={dest.image}
+                      alt={dest.country}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-md rounded-md border border-slate-200 text-xs font-bold text-slate-900 flex items-center gap-1.5 shadow-xs">
+                      <span>{dest.country}</span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="p-6 space-y-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-900 transition-colors">
-                      {dest.country}
-                    </h3>
-                    <p className="text-xs text-blue-700 font-semibold mt-0.5">
-                      {dest.tagline}
+                  <div className="p-6 space-y-3">
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-900 transition-colors">
+                        {dest.country}
+                      </h3>
+                      <p className="text-xs text-blue-700 font-semibold mt-0.5">
+                        {dest.tagline}
+                      </p>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                      {dest.overview}
                     </p>
-                  </div>
 
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
-                    {dest.overview}
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-500">Tuition:</span>
-                      <span className="text-slate-900 font-semibold text-right">{dest.averageTuition}</span>
-                    </div>
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-500">Work Rights:</span>
-                      <span className="text-slate-700 text-right">{dest.workRights}</span>
-                    </div>
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-500">Timeline:</span>
-                      <span className="text-blue-900 font-bold text-right">{dest.visaProcessingTime}</span>
+                    <div className="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="text-slate-500">Tuition:</span>
+                        <span className="text-slate-900 font-semibold text-right">{dest.averageTuition}</span>
+                      </div>
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="text-slate-500">Work Rights:</span>
+                        <span className="text-slate-700 text-right">{dest.workRights}</span>
+                      </div>
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="text-slate-500">Timeline:</span>
+                        <span className="text-blue-900 font-bold text-right">{dest.visaProcessingTime}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="p-6 pt-0 flex items-center gap-2.5">
-                <button
-                  onClick={() => onOpenConsultation(dest.country)}
-                  className="flex-1 py-2.5 px-3 text-xs font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-lg transition-colors text-center cursor-pointer shadow-xs"
-                >
-                  Consult for {dest.country}
-                </button>
-                <button
-                  onClick={() => onNavigate('/destinations')}
-                  className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-blue-900 transition-colors cursor-pointer"
-                  title="View full requirements"
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
+                <div className="p-6 pt-0 flex items-center gap-2.5">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenConsultation(dest.country);
+                    }}
+                    data-cursor="apply"
+                    className="flex-1 py-2.5 px-3 text-xs font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-lg transition-colors text-center cursor-pointer shadow-xs"
+                  >
+                    Consult for {dest.country}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onOpenDrawer) {
+                        onOpenDrawer(dest, 'destination');
+                      } else {
+                        onNavigate('/destinations');
+                      }
+                    }}
+                    data-cursor="view"
+                    className="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 border border-slate-200 text-slate-700 hover:text-blue-900 transition-colors cursor-pointer"
+                    title="View quick dossier"
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </HelloMondayCard>
             </motion.div>
           ))}
         </div>
@@ -450,9 +495,12 @@ export const HomePage: React.FC<HomePageProps> = ({
             <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
               Consultancy Scope
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <KineticHeading
+              as="h2"
+              className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight"
+            >
               Our Professional Services
-            </h2>
+            </KineticHeading>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -463,47 +511,59 @@ export const HomePage: React.FC<HomePageProps> = ({
                 initial={{ opacity: 0, y: 24 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: idx * 0.07 }}
-                whileHover={{ y: -4 }}
-                className="p-7 rounded-2xl bg-white border border-slate-200/80 flex flex-col justify-between hover:border-blue-300 hover:shadow-lg transition-all group"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center">
-                      {serviceIconMap[service.iconName] || <GraduationCap className="w-6 h-6 text-blue-800" />}
-                    </div>
-                    <span className="text-xs font-mono text-slate-400 font-bold">0{idx + 1}</span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-900 transition-colors">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {service.shortDesc}
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-200/60 space-y-1.5">
-                    <span className="text-[11px] uppercase tracking-wider text-blue-800 font-bold block mb-1">
-                      Deliverables:
-                    </span>
-                    {service.deliverables.slice(0, 3).map((item, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-700 shrink-0 mt-0.5" />
-                        <span>{item}</span>
+                <HelloMondayCard
+                  cursorBadge="DOSSIER"
+                  onClick={() => (onOpenDrawer ? onOpenDrawer(service, 'service') : onOpenConsultation(undefined, service.id))}
+                  className="p-7 rounded-2xl bg-white border border-slate-200/80 flex flex-col justify-between hover:border-blue-300 hover:shadow-lg transition-all group h-full"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+                        {serviceIconMap[service.iconName] || <GraduationCap className="w-6 h-6 text-blue-800" />}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                      <span className="text-xs font-mono text-slate-400 font-bold">0{idx + 1}</span>
+                    </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-200/60">
-                  <button
-                    onClick={() => onOpenConsultation(undefined, service.id)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-blue-900 hover:text-white border border-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center justify-between cursor-pointer"
-                  >
-                    <span>Request Details</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-900 transition-colors">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      {service.shortDesc}
+                    </p>
+
+                    <div className="pt-3 border-t border-slate-200/60 space-y-1.5">
+                      <span className="text-[11px] uppercase tracking-wider text-blue-800 font-bold block mb-1">
+                        Deliverables:
+                      </span>
+                      {service.deliverables.slice(0, 3).map((item, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-700 shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 mt-6 border-t border-slate-200/60">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onOpenDrawer) {
+                          onOpenDrawer(service, 'service');
+                        } else {
+                          onOpenConsultation(undefined, service.id);
+                        }
+                      }}
+                      data-cursor="view"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-blue-900 hover:text-white border border-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Explore Service Dossier</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </HelloMondayCard>
               </motion.div>
             ))}
           </div>
@@ -813,9 +873,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
             Common Questions
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <KineticHeading
+            as="h2"
+            className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight justify-center"
+          >
             Frequently Asked Questions
-          </h2>
+          </KineticHeading>
         </motion.div>
 
         <div className="space-y-3">
@@ -849,6 +912,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           })}
         </div>
       </section>
+
+      {/* Kinetic Marquee (Reverse Flow) */}
+      <KineticMarquee theme="dark" speed={28} reverse={true} />
 
       {/* =========================================================================
           SECTION 11: CLOSING CONSULTATION CTA

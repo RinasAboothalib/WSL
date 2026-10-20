@@ -15,6 +15,9 @@ import {
 } from 'lucide-react';
 import { WSLLogo } from '../components/WSLLogo';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { KineticHeading } from '../components/KineticHeading';
+import { KineticMarquee } from '../components/KineticMarquee';
+import { HelloMondayCard } from '../components/HelloMondayCard';
 import { WSL_OFFICES } from '../data/wslData';
 
 export const ContactPage: React.FC = () => {
@@ -79,17 +82,25 @@ export const ContactPage: React.FC = () => {
                 </span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.08] text-balance"
-              >
-                Direct Access. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900">
-                  Dubai & Lahore Offices.
-                </span>
-              </motion.h1>
+              <div className="space-y-3">
+                <KineticHeading
+                  as="h1"
+                  delay={0.06}
+                  immediate={true}
+                  className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.08]"
+                  highlightWords={['Dubai', '&', 'Lahore', 'Offices.']}
+                >
+                  Direct Access. Dubai & Lahore Offices.
+                </KineticHeading>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl"
+                >
+                  Visit our licensed corporate suites in Burjuman Dubai or Gulberg Lahore for in-person evaluations, or schedule an instant virtual consultation with our senior advisors.
+                </motion.p>
+              </div>
 
               {/* Quick Branch Selector Tabs */}
               <motion.div
@@ -240,6 +251,9 @@ export const ContactPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Hello Monday Kinetic Marquee */}
+      <KineticMarquee theme="accent" speed={24} />
+
       {/* =========================================================================
           MAIN CONTACT FORM & BRANCH DIRECTORY SECTION
          ========================================================================= */}
@@ -248,9 +262,12 @@ export const ContactPage: React.FC = () => {
           <span className="text-xs uppercase tracking-wider text-blue-700 font-extrabold block mb-1">
             Free Profile Evaluation
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <KineticHeading
+            as="h2"
+            className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight justify-center"
+          >
             Schedule an Appointment or File Assessment
-          </h2>
+          </KineticHeading>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
